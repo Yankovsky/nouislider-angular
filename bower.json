@@ -15,7 +15,7 @@
   ],
   "license": "MIT",
   "ignore": ["./!(nouislider.js)", "./!(nouislider.min.js)"],
-  "devDependencies": {
+  "dependencies": {
     "nouislider": "~6.2.0",
     "angular": "~1.2.19"
   }
