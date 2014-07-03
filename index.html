@@ -11,7 +11,7 @@
     <script src='nouislider.js'></script>
     <script>
         angular.module('sampleApp', ['ya.nouislider']).controller('SampleCtrl', function($scope) {
-            $scope.values = [20,70]
+            $scope.values = [20, 70]
             $scope.options = {
                 range: {min: 0, max: 100}
             }
@@ -31,30 +31,13 @@
     </script>
 </head>
 <body ng-app='sampleApp' ng-controller='SampleCtrl'>
-<div no-ui-slider='options' ng-model='values'></div>
-<input type="text" ng-model="values[0]"/>
-<input type="text" ng-model="values[1]"/>
-<input type="text" ng-model="values"/>
-<div>{{values}}</div>
-<button ng-click="changeToOneHandleNumber()">One handle (number)</button>
-<button ng-click="changeToOneHandleArray()">One handle (array[number])</button>
-<button ng-click="changeToTwoHandles()">Two handles</button>
-<div class="slider"></div>
-<script>
-
-    // On document ready, initialize noUiSlider.
-    $(function() {
-
-        $('.slider').noUiSlider({
-            start: [20, 30],
-            range: {
-                'min': 10,
-                'max': 40
-            }
-        });
-
-    });
-
-</script>
+    <div no-ui-slider='options' ng-model='values'></div>
+    <input type="text" ng-model="values[0]"/>
+    <input type="text" ng-model="values[1]"/>
+    <input type="text" ng-model="values"/>
+    <div>{{values}}</div>
+    <button ng-click="changeToOneHandleNumber()">One handle (number)</button>
+    <button ng-click="changeToOneHandleArray()">One handle (array[number])</button>
+    <button ng-click="changeToTwoHandles()">Two handles</button>
 </body>
 </html>
