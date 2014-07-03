@@ -1,7 +1,7 @@
 {
   "name": "nouislider-angular",
   "main": "nouislider.js",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "homepage": "https://github.com/Yankovsky/nouislider-angular",
   "authors": [
     "Yankovsky <YankovskyAndrey@gmail.com>"
@@ -14,7 +14,11 @@
     "angularjs"
   ],
   "license": "MIT",
-  "ignore": ["./!(nouislider.js)", "./!(nouislider.min.js)"],
+  "ignore": [
+    "**/*",
+    "./!(nouislider.js)",
+    "./!(nouislider.min.js)"
+  ],
   "dependencies": {
     "nouislider": "~6.2.0",
     "angular": "~1.2.19"
