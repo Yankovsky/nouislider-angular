@@ -10,7 +10,8 @@
     <script src='../bower_components/nouislider/jquery.nouislider.js'></script>
     <script src='../nouislider.js'></script>
     <script>
-        angular.module('sampleApp', ['ya.nouislider']).controller('SampleCtrl', function($scope) {
+        angular.module('sampleApp', ['ya.nouislider']).value('noUiSliderConfig', {step: 1})
+            .controller('SampleCtrl', function($scope) {
             $scope.values = [20, 70]
             $scope.options = {
                 range: {min: 0, max: 100}
