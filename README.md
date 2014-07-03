@@ -1,6 +1,6 @@
 Check demo at http://yankovsky.github.io/nouislider-angular/example/
 
-You can pass any nouislider options to no-ui-slider directive. You should use ng-model instead of start.
+You can pass any nouislider options to no-ui-slider directive. You should use ng-model instead of start property.
 
 Basic use-case:
 
@@ -15,4 +15,10 @@ angular.module('sampleApp', ['ya.nouislider'])
 ```
 ```html
 <div no-ui-slider='options' ng-model='values'></div>
+```
+
+You can set global configuration value noUiSliderConfig and all nouislider options will inherit from it:
+
+```javascript
+angular.module('sampleApp', ['ya.nouislider']).value('noUiSliderConfig', {step: 1})
 ```
