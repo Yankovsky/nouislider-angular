@@ -16,8 +16,8 @@
   "license": "MIT",
   "ignore": [
     "**/*",
-    "./!(nouislider.js)",
-    "./!(nouislider.min.js)"
+    "!nouislider.js",
+    "!nouislider.min.js"
   ],
   "dependencies": {
     "nouislider": "~6.2.0",
