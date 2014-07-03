@@ -1,0 +1,20 @@
+{
+  "name": "nouislider-angular",
+  "main": "nouislider.js",
+  "version": "0.0.0",
+  "authors": [
+    "Yankovsky <YankovskyAndrey@gmail.com>"
+  ],
+  "description": "angular wrapper for nouislider",
+  "keywords": [
+    "nouislider",
+    "slider",
+    "angular",
+    "angularjs"
+  ],
+  "license": "MIT",
+  "devDependencies": {
+    "nouislider": "~6.2.0",
+    "angular": "~1.2.19"
+  }
+}
