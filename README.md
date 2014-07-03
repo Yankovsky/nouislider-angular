@@ -1,4 +1,4 @@
-Check demo at http://yankovsky.github.io/nouislider-angular
+Check demo at http://yankovsky.github.io/nouislider-angular/example/
 
 You can pass any nouislider options to no-ui-slider directive. You should use ng-model instead of start.
 
