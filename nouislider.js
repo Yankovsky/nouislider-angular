@@ -17,7 +17,7 @@ angular.module('ya.nouislider', []).value('noUiSliderConfig', {}).directive('noU
 
       function tryToInit() {
         var value = ngModel.$viewValue,
-          options = angular.extend(noUiSliderConfig, scope.noUiSlider, {start: value})
+          options = angular.extend({}, noUiSliderConfig, scope.noUiSlider, {start: value})
         if (angular.isDefined(options.start) && angular.isDefined(options.range)) {
           element.noUiSlider(options, initialized)
           previousValue = angular.copy(value)
