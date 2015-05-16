@@ -9,11 +9,16 @@ angular.module('ya.nouislider', []).value('noUiSliderConfig', {}).directive('noU
     restrict: 'A',
     require: 'ngModel',
     scope: {
-      noUiSlider: '='
+      noUiSlider: '=',
+      noUiSliderEvents: '='
     },
     link: function(scope, element, attrs, ngModel) {
       var initialized = false,
         previousValue = undefined
+
+      scope.$on('$destroy', function() {
+        element.off('slide.noUiSlider set.noUiSlider change.noUiSlider');
+      });
 
       function tryToInit() {
         var value = ngModel.$viewValue,
@@ -22,7 +27,10 @@ angular.module('ya.nouislider', []).value('noUiSliderConfig', {}).directive('noU
           element.noUiSlider(options, initialized)
           previousValue = angular.copy(value)
           if (!initialized)
-            element.on('slide change', function(event, value) {
+            angular.forEach(scope.noUiSliderEvents, function(handler, event) {
+              element.on(event + '.noUiSlider', handler);
+            });
+            element.on('slide.noUiSlider change.noUiSlider', function(event, value) {
               ngModel.$setViewValue(value)
               scope.$apply()
             })
