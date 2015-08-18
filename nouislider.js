@@ -15,15 +15,18 @@ angular.module('ya.nouislider', []).value('noUiSliderConfig', {}).directive('noU
       noUiSliderTooltips: '='
     },
     link: function(scope, element, attrs, ngModel) {
-      var
+      var 
         initialized = false,
-        slider = element[0], 
+        slider = element[0],
         previousValue = undefined;
 
       scope.$on('$destroy', function() {
-        slider.noUiSlider.off('slide');
-        slider.noUiSlider.off('set');
-        slider.noUiSlider.off('change');
+        if (initialized) {
+          slider.noUiSlider.off('update');
+          slider.noUiSlider.off('slide');
+          slider.noUiSlider.off('set');
+          slider.noUiSlider.off('change');
+        }
       });
 
       function tryToInit() {
@@ -59,29 +62,34 @@ angular.module('ya.nouislider', []).value('noUiSliderConfig', {}).directive('noU
               ngModel.$setViewValue(values);
               scope.$apply();
             });
-            initialized = true;
           }
+          initialized = true;
         }
       }
 
       ngModel.$render = function() {
         if (!initialized) return;
-        var value = ngModel.$viewValue,
+        
+        var 
+          value = ngModel.$viewValue,
           newValue = undefined;
+
         if (handlesCount(value) == 2) {
           value[0] = Math.max(value[0], scope.noUiSlider.range.min);
           value[1] = Math.min(value[1], scope.noUiSlider.range.max);
-          var 
+
+          var
             fromNotChanged = value[0] == previousValue[0],
             toNotChanged = value[1] == previousValue[1];
 
           previousValue = angular.copy(value);
-          
+
           if (value[0] > value[1]) {
             if (fromNotChanged) value[1] = value[0];
             if (toNotChanged) value[0] = value[1];
             if (value[0] > value[1]) value[1] = value[0];
           }
+
           newValue = [fromNotChanged ? null : value[0], toNotChanged ? null : value[1]];
         } else {
           var valueIsArray = angular.isArray(value);
