@@ -1,6 +1,16 @@
-Check demo at http://yankovsky.github.io/nouislider-angular/example/
+nouislider-angular-sjr
+======================
 
-You can pass any nouislider options to no-ui-slider directive. You should use ng-model instead of start property.
+Updated version of [nouislider-angular](https://github.com/Yankovsky/nouislider-angular) by Yankovsky Andrey.
+
+- Updated to use noUiSlider 8.0.2
+- Tooltip functionality has been added
+
+I've also updated [angular-nouislider](https://github.com/SteveJRobertson/angular-nouislider-sjr), but have found this Angular wrapper to be more efficient.
+
+Improved documentation to follow.
+
+You can pass any nouislider options to the no-ui-slider directive. You should use ng-model instead of the start property.
 
 Basic use-case:
 
