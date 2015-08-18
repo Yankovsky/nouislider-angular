@@ -1,6 +1,6 @@
 {
-  "name": "nouislider-angular",
-  "version": "1.0.8",
+  "name": "nouislider-angular-sjr",
+  "version": "0.0.2",
   "description": "Angular wrapper for nouislider",
   "main": "nouislider-angular.js",
   "scripts": {
@@ -12,7 +12,7 @@
     "slider",
     "nouislider"
   ],
-  "author": "Yankovsky <YankovskyAndrey@gmail.com>",
+  "author": "Steve Robertson",
   "license": "ISC",
   "devDependencies": {
     "globule": "^0.2.0",
