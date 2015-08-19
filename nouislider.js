@@ -38,21 +38,7 @@ angular.module('ya.nouislider', []).value('noUiSliderConfig', {}).directive('noU
           if (!initialized) {
             noUiSlider.create(slider, options);
             previousValue = angular.copy(value);
-
-            if (scope.noUiSliderTooltips) {
-              var
-                tipHandles = slider.getElementsByClassName('noUi-handle'),
-                tooltips = [];
-                
-                for (var i=0; i<tipHandles.length; i++) {
-                  tooltips[i] = document.createElement('div');
-                  tipHandles[i].appendChild(tooltips[i]);
-
-                  tooltips[i].className += 'tooltip';
-                  tooltips[i].innerHTML = scope.noUiSliderTooltips[i];
-                }
-            }
-
+            
             angular.forEach(scope.noUiSliderEvents, function(handler, event) {
               slider.noUiSlider.on(event, function(values, handle) {
                 handler(values, handle, attrs);
@@ -64,7 +50,38 @@ angular.module('ya.nouislider', []).value('noUiSliderConfig', {}).directive('noU
             });
           }
           initialized = true;
+          createTooltips();
         }
+      }
+
+      function createTooltips() {
+        if (initialized && angular.isArray(scope.noUiSliderTooltips)) {
+          var
+            existingTooltips = slider.getElementsByClassName('tooltip'),
+            tipHandles = slider.getElementsByClassName('noUi-handle'),
+            tooltips = [];
+
+          if (!existingTooltips || existingTooltips.length === 0) {
+            for (var i=0; i<tipHandles.length; i++) {
+              tooltips[i] = document.createElement('div');
+              tipHandles[i].appendChild(tooltips[i]);
+              tooltips[i].className += 'tooltip';
+              
+            }
+          } else {
+            tooltips = existingTooltips;
+          }
+
+          for (var i=0; i<tipHandles.length; i++) {
+            if (angular.isDefined(scope.noUiSliderTooltips[i])) {
+              updateTooltip(tooltips[i], scope.noUiSliderTooltips[i]);
+            }
+          }
+        }
+      }
+
+      function updateTooltip(tooltip, content) {
+        tooltip.innerHTML = content;
       }
 
       ngModel.$render = function() {
@@ -106,6 +123,12 @@ angular.module('ya.nouislider', []).value('noUiSliderConfig', {}).directive('noU
         return scope.noUiSlider;
       }, function() {
         tryToInit();
+      }, true);
+
+      scope.$watch(function() {
+        return scope.noUiSliderTooltips;
+      }, function() {
+        createTooltips();
       }, true);
 
       scope.$watch(function() {
