@@ -45,13 +45,48 @@ angular.module('ya.nouislider', []).value('noUiSliderConfig', {}).directive('noU
               });
             });
             slider.noUiSlider.on('slide', function(values, handle) {
+              disableSliderHandles();
               ngModel.$setViewValue(values);
               scope.$apply();
+            });
+            slider.noUiSlider.on('change', function(values, handle) {
+              enableSliderHandles();
             });
           }
           initialized = true;
           createTooltips();
         }
+      }
+
+      function disableSliderHandles() {
+        var 
+          handles = document.getElementsByClassName('noUi-origin'),
+          activeHandle = document.getElementsByClassName('noUi-active')[0].parentNode;
+
+        angular.forEach(handles, function(handle) {
+          if (handle !== activeHandle) {
+            handle.setAttribute('disabled', true);
+          } else {
+            handle.removeAttribute('disabled');
+          }
+        });
+      }
+
+      function enableSliderHandles() {
+        var 
+          handles = document.getElementsByClassName('noUi-origin'),
+          activeHandles = document.getElementsByClassName('noUi-active');
+
+        angular.forEach(handles, function(handle) {
+          handle.removeAttribute('disabled');
+        });
+
+        angular.forEach(activeHandles, function(activeHandle) {
+          var classes = activeHandle.className.replace(/(?:^|\s)noUi-active(?!\S)/g , '');
+          console.log(classes);
+
+          activeHandle.className = classes;
+        });
       }
 
       function createTooltips() {
