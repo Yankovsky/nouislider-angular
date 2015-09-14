@@ -61,7 +61,11 @@ angular.module('ya.nouislider', []).value('noUiSliderConfig', {}).directive('noU
       function disableSliderHandles() {
         var 
           handles = document.getElementsByClassName('noUi-origin'),
-          activeHandle = document.getElementsByClassName('noUi-active')[0].parentNode;
+          activeHandle = [];
+
+        if (document.getElementsByClassName('noUi-active').length) {
+          activeHandle = document.getElementsByClassName('noUi-active')[0].parentNode;          
+        }
 
         angular.forEach(handles, function(handle) {
           if (handle !== activeHandle) {
