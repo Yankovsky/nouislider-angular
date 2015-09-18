@@ -9,32 +9,50 @@ angular.module('ya.nouislider', []).value('noUiSliderConfig', {}).directive('noU
     restrict: 'A',
     require: 'ngModel',
     scope: {
+      ngDisabled: '=',
       noUiSlider: '=',
-      noUiSliderEvents: '='
+      noUiSliderLib: '=',
+      noUiSliderEvents: '=',
+      noUiSliderTrigger: '@'
     },
-    link: function(scope, element, attrs, ngModel) {
+    link: function(scope, elements, attrs, ngModel) {
       var initialized = false,
-        previousValue = undefined
+        previousValue = undefined,
+        element = elements[0];
 
       scope.$on('$destroy', function() {
-        element.off('slide.noUiSlider set.noUiSlider change.noUiSlider');
+        element.noUiSlider.off('slide set change update');
       });
 
       function tryToInit() {
         var value = ngModel.$viewValue,
-          options = angular.extend({}, noUiSliderConfig, scope.noUiSlider, {start: value})
+          options = angular.extend({}, noUiSliderConfig, scope.noUiSlider, {start: value}),
+          noUiSlider = scope.noUiSliderLib ? scope.noUiSliderLib : window.noUiSlider;
         if (angular.isDefined(options.start) && angular.isDefined(options.range)) {
-          element.noUiSlider(options, initialized)
-          previousValue = angular.copy(value)
-          if (!initialized)
-            angular.forEach(scope.noUiSliderEvents, function(handler, event) {
-              element.on(event + '.noUiSlider', handler);
+          previousValue = angular.copy(value);
+          if (!initialized) {
+            noUiSlider.create(element, options);
+            angular.forEach(scope.noUiSliderEvents, function(event, handler) {
+              element.noUiSlider.on(event, handler);
             });
-            element.on('slide.noUiSlider change.noUiSlider', function(event, value) {
-              ngModel.$setViewValue(value)
-              scope.$apply()
-            })
-          initialized = true
+            element.noUiSlider.on((scope.noUiSliderTrigger || 'update'), function(value) {
+              // NOTE: Reading the value using .get() because handler always returns an array
+              value = element.noUiSlider.get();
+              var valueIsArray = angular.isArray(value);
+              if (valueIsArray) value = value[0];
+              value = parseFloat(value) || 0;
+              value = Math.min(Math.max(value, scope.noUiSlider.range.min), scope.noUiSlider.range.max);
+              newValue = valueIsArray ? [value] : value;
+
+              ngModel.$setViewValue(newValue);
+            });
+            // Disable the field per request
+            element.removeAttribute('disabled');
+            if (scope.ngDisabled) {
+              element.setAttribute('disabled', true);
+            }
+          }
+          initialized = true;
         }
       }
 
@@ -60,9 +78,9 @@ angular.module('ya.nouislider', []).value('noUiSliderConfig', {}).directive('noU
           value = parseFloat(value) || 0
           value = Math.min(Math.max(value, scope.noUiSlider.range.min), scope.noUiSlider.range.max)
           newValue = valueIsArray ? [value] : value
-          ngModel.$setViewValue(newValue)
+          ngModel.$setViewValue(newValue);
         }
-        element.val(newValue)
+        element.noUiSlider.set(newValue);
       }
 
       scope.$watch(function() {
