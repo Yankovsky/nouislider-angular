@@ -2,23 +2,23 @@
 <html>
 <head>
     <title></title>
-    <link rel="stylesheet" href="../bower_components/nouislider/jquery.nouislider.css"/>
+    <link rel="stylesheet" href="../bower_components/nouislider/distribute/nouislider.min.css"/>
 
-    <script src='../bower_components/jquery/dist/jquery.js'></script>
     <script src='../bower_components/angular/angular.js'></script>
-    <script src='../bower_components/nouislider/Link.js'></script>
-    <script src='../bower_components/nouislider/jquery.nouislider.js'></script>
+    <script src='../bower_components/nouislider/distribute/nouislider.js'></script>
     <script src='../nouislider.js'></script>
     <script>
         angular.module('sampleApp', ['ya.nouislider']).value('noUiSliderConfig', {step: 1})
             .controller('SampleCtrl', function($scope) {
             $scope.eventsLog = [];
+            $scope.disabled = false;
             $scope.values = [20, 70]
             $scope.options = {
                 range: {min: 0, max: 100}
             }
-            function trackEvent(e, range) {
-                $scope.eventsLog.push(e.type + ' ' + range);
+            function trackEvent(values, oneValue, twoValues) {
+                //console.log('event', arguments);
+                $scope.eventsLog.push(twoValues);
                 if ($scope.eventsLog.length > 10) {
                     $scope.eventsLog.splice(0, 1);
                 }
@@ -44,10 +44,13 @@
     </script>
 </head>
 <body ng-app='sampleApp' ng-controller='SampleCtrl'>
-    <div no-ui-slider='options' no-ui-slider-events='events' ng-model='values'></div>
+    <div no-ui-slider='options' no-ui-slider-events='events' ng-model='values' ng-disabled='disabled'></div>
     <input type="text" ng-model="values[0]"/>
     <input type="text" ng-model="values[1]"/>
     <input type="text" ng-model="values"/>
+    <label for="disabled">Disabled:
+        <input id="disabled" type="checkbox" ng-model="disabled"/>
+    </label>
     <div>{{values}}</div>
     <button ng-click="changeToOneHandleNumber()">One handle (number)</button>
     <button ng-click="changeToOneHandleArray()">One handle (array[number])</button>

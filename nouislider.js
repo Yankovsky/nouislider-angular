@@ -1,9 +1,23 @@
-angular.module('ya.nouislider', []).value('noUiSliderConfig', {}).directive('noUiSlider', function(noUiSliderConfig) {
+angular.module('ya.nouislider', []).value('noUiSliderConfig', {}).directive('noUiSlider', function(noUiSliderConfig, $timeout) {
   noUiSliderConfig = noUiSliderConfig || {}
   function handlesCount(value) {
     if (angular.isUndefined(value)) return 0
     return angular.isArray(value) && value.length == 2 ? 2 : 1
   }
+  function debounce(func, wait, immediate) {
+    var timeout;
+    return function() {
+      var context = this, args = arguments;
+      var later = function() {
+        timeout = null;
+        if (!immediate) func.apply(context, args);
+      };
+      var callNow = immediate && !timeout;
+      clearTimeout(timeout);
+      timeout = setTimeout(later, wait);
+      if (callNow) func.apply(context, args);
+    };
+  };
 
   return {
     restrict: 'A',
@@ -13,11 +27,13 @@ angular.module('ya.nouislider', []).value('noUiSliderConfig', {}).directive('noU
       noUiSlider: '=',
       noUiSliderLib: '=',
       noUiSliderEvents: '=',
+      noUiSliderDebounce: '@',
       noUiSliderTrigger: '@'
     },
     link: function(scope, elements, attrs, ngModel) {
       var initialized = false,
         previousValue = undefined,
+        debouncedSet = undefined,
         element = elements[0];
 
       scope.$on('$destroy', function() {
@@ -32,7 +48,7 @@ angular.module('ya.nouislider', []).value('noUiSliderConfig', {}).directive('noU
           previousValue = angular.copy(value);
           if (!initialized) {
             noUiSlider.create(element, options);
-            angular.forEach(scope.noUiSliderEvents, function(event, handler) {
+            angular.forEach(scope.noUiSliderEvents, function(handler, event) {
               element.noUiSlider.on(event, handler);
             });
             element.noUiSlider.on((scope.noUiSliderTrigger || 'update'), function(value) {
@@ -52,6 +68,7 @@ angular.module('ya.nouislider', []).value('noUiSliderConfig', {}).directive('noU
               element.setAttribute('disabled', true);
             }
           }
+          debouncedSet = debounce(element.noUiSlider.set, (scope.noUiSliderDebounce ? parseInt(scope.noUiSliderDebounce) : 0));
           initialized = true;
         }
       }
@@ -80,7 +97,7 @@ angular.module('ya.nouislider', []).value('noUiSliderConfig', {}).directive('noU
           newValue = valueIsArray ? [value] : value
           ngModel.$setViewValue(newValue);
         }
-        element.noUiSlider.set(newValue);
+        debouncedSet(newValue);
       }
 
       scope.$watch(function() {
