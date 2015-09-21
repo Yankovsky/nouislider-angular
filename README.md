@@ -1,8 +1,10 @@
+# nouislider-angular
+
 Check demo at http://yankovsky.github.io/nouislider-angular/example/
 
-You can pass any nouislider options to no-ui-slider directive. You should use ng-model instead of start property.
+You can pass any [nouislider options](http://refreshless.com/nouislider/slider-options/) to no-ui-slider directive. Use ng-model instead of start property.
 
-Basic use-case:
+## Basic usage
 
 ```javascript
 angular.module('sampleApp', ['ya.nouislider'])
@@ -17,20 +19,33 @@ angular.module('sampleApp', ['ya.nouislider'])
 <div no-ui-slider='options' ng-model='values'></div>
 ```
 
+## Options
+
+#### Global config
+
 You can set global configuration value noUiSliderConfig and all nouislider options will inherit from it:
 
 ```javascript
-angular.module('sampleApp', ['ya.nouislider']).value('noUiSliderConfig', {step: 1})
+angular.module('sampleApp', ['ya.nouislider'])
+  .value('noUiSliderConfig', {step: 1})
 ```
 
-noUiSlider library can also be passed to element, otherwise it is expected to be found from `window.noUiSlider`:
+#### Attribute: ng-ui-slider-debounce
+
+Delay the `element.noUiSlider.set` execution by given amount of milliseconds. This can improve the performance in certain cases. Defaults to `0`.
 
 ```html
-<!-- $scope.lib = noUiSlider || window.noUiSlider; -->
-<div no-ui-slider='options' no-ui-slider-lib='lib' ng-model='values'></div>
+<div
+  no-ui-slider='options'
+  ng-ui-slider-trigger='change'
+  ng-ui-slider-debounce='100'
+  ng-model='values'
+</div>
 ```
 
-Also, one can boost the performance by triggering the update only on `change` (default: `update`) and/or adjusting the ng-model-options:
+#### Attribute: ng-ui-slider-trigger
+
+One can adjust the performance by triggering the update only on `change` (default: `update`) and/or adjusting the Angular `ng-model-options`:
 
 ```html
 <div
@@ -41,4 +56,17 @@ Also, one can boost the performance by triggering the update only on `change` (d
 </div>
 ```
 
-Field can be disabled with `ng-disabled='true'`
+However, for best user experience, adjust the `ng-ui-slider-debounce` instead.
+
+#### Attribute: no-ui-slider-lib
+
+noUiSlider library can also be passed to element, otherwise it is expected to be found from `window.noUiSlider`:
+
+```html
+<!-- $scope.lib = noUiSlider || window.noUiSlider; -->
+<div no-ui-slider='options' no-ui-slider-lib='lib' ng-model='values'></div>
+```
+
+#### Attribute: ng-disable
+
+Component supports Angular standard for disabling the field: `ng-disabled='true'`
