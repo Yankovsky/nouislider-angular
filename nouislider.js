@@ -36,15 +36,21 @@ angular.module('ya.nouislider', []).value('noUiSliderConfig', {}).directive('noU
               element.noUiSlider.on(event, handler);
             });
             element.noUiSlider.on((scope.noUiSliderTrigger || 'update'), function(value) {
-              // NOTE: Reading the value using .get() because handler always returns an array
-              value = element.noUiSlider.get();
-              var valueIsArray = angular.isArray(value);
-              if (valueIsArray) value = value[0];
-              value = parseFloat(value) || 0;
-              value = Math.min(Math.max(value, scope.noUiSlider.range.min), scope.noUiSlider.range.max);
-              newValue = valueIsArray ? [value] : value;
-
-              ngModel.$setViewValue(newValue);
+				// NOTE: Reading the value using .get() because handler always returns an array
+				value = element.noUiSlider.get();
+				var valueIsArray = angular.isArray(value);
+				if (valueIsArray) {
+					value = [parseFloat(value[0]) || scope.noUiSlider.range.min, parseFloat(value[1]) || scope.noUiSlider.range.max];
+					value = [
+							Math.min(Math.max(value[0], scope.noUiSlider.range.min), scope.noUiSlider.range.max),
+							Math.min(Math.max(value[1], scope.noUiSlider.range.min), scope.noUiSlider.range.max)
+					];
+				} else {
+					value = parseFloat(value) || 0;
+					value = Math.min(Math.max(value, scope.noUiSlider.range.min), scope.noUiSlider.range.max);
+				}  
+				newValue = value;
+				ngModel.$setViewValue(newValue);
             });
             // Disable the field per request
             element.removeAttribute('disabled');
