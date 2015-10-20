@@ -1,0 +1,17 @@
+<section ng-controller="BasicCtrl as ctrl">
+    <h1>Basic</h1>
+
+    <!--<input type="number" ng-model="ctrl.value1"/>-->
+    <!--<div class="horizontal-slider"-->
+         <!--ya-no-ui-slider="ctrl.options1"-->
+         <!--ng-model="ctrl.value1"></div>-->
+
+    <input type="number" ng-model="ctrl.value2[0]"/>
+    <input type="number" ng-model="ctrl.value2[1]"/>
+    <div class="horizontal-slider"
+         ya-no-ui-slider="ctrl.options2"
+         ng-model="ctrl.value2"></div>
+
+    <button ng-click="ctrl.dsg()">dsg</button>
+</section>
+

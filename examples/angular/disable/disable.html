@@ -1,0 +1,32 @@
+<section ng-controller="DisablingSliderCtrl as ctrl">
+    <h1>Disabling a slider</h1>
+
+    <div>{{ctrl.value}}</div>
+    <div class="horizontal-slider"
+         ya-no-ui-slider="ctrl.options1"
+         ya-no-ui-slider-disabled="ctrl.sliderDisabled"
+         ya-no-ui-slider-handle1-disabled="ctrl.sliderHandle1Disabled"
+         ya-no-ui-slider-handle2-disabled="ctrl.sliderHandle2Disabled"
+         ng-model="ctrl.value1"></div>
+
+    <div>{{ctrl.value}}</div>
+    <div class="horizontal-slider"
+         ya-no-ui-slider="ctrl.options2"
+         ya-no-ui-slider-disabled="ctrl.sliderDisabled"
+         ya-no-ui-slider-handle1-disabled="ctrl.sliderHandle1Disabled"
+         ya-no-ui-slider-handle2-disabled="ctrl.sliderHandle2Disabled"
+         ng-model="ctrl.value2"></div>
+
+    <label>
+        Toggle slider
+        <input type="checkbox" ng-model="ctrl.sliderDisabled"/>
+    </label>
+    <label>
+        Toggle handle 1
+        <input type="checkbox" ng-model="ctrl.sliderHandle1Disabled"/>
+    </label>
+    <label>
+        Toggle handle 2
+        <input type="checkbox" ng-model="ctrl.sliderHandle2Disabled"/>
+    </label>
+</section>
