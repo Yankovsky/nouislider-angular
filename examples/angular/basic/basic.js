@@ -21,8 +21,4 @@ angular.module('exampleApp').controller('BasicCtrl', function() {
 		}
 	};
 	that.value2 = [30, 90];
-
-	that.dsg = function() {
-		that.value1 = 15;
-	}
 })

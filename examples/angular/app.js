@@ -25,6 +25,10 @@ angular.module('exampleApp', ['ya.nouislider', 'ngRoute']).config(function($rout
 			templateUrl: 'updating-slider-options/updating-slider-options.html',
 			controller: 'UpdatingSliderOptionsCtrl'
 		})
+		.when('/timeout', {
+			templateUrl: 'timeout/timeout.html',
+			controller: 'TimeoutCtrl'
+		})
 		.when('/destroy', {
 			templateUrl: 'destroy/destroy.html',
 			controller: 'DestroyCtrl'

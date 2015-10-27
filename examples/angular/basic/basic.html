@@ -1,17 +1,18 @@
 <section ng-controller="BasicCtrl as ctrl">
     <h1>Basic</h1>
 
-    <!--<input type="number" ng-model="ctrl.value1"/>-->
-    <!--<div class="horizontal-slider"-->
-         <!--ya-no-ui-slider="ctrl.options1"-->
-         <!--ng-model="ctrl.value1"></div>-->
+    <h2>One handle</h2>
+    <input type="number" ng-model="ctrl.value1"/>
+    <div class="horizontal-slider"
+         ya-no-ui-slider="ctrl.options1"
+         ng-model="ctrl.value1"></div>
+    <button ng-click="ctrl.value1 = 10">set 10</button>
 
+    <h2>Two handles</h2>
     <input type="number" ng-model="ctrl.value2[0]"/>
     <input type="number" ng-model="ctrl.value2[1]"/>
     <div class="horizontal-slider"
          ya-no-ui-slider="ctrl.options2"
          ng-model="ctrl.value2"></div>
-
-    <button ng-click="ctrl.dsg()">dsg</button>
+    <button ng-click="ctrl.value2 = [15, 50]">set [15, 50]</button>
 </section>
-

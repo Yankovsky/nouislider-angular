@@ -1,0 +1,11 @@
+<section ng-controller="TimeoutCtrl as ctrl">
+    <h1>Timeout</h1>
+
+    <h2>Value </h2>
+    <input type="number" ng-model="ctrl.value[0]"/>
+    <input type="number" ng-model="ctrl.value[1]"/>
+    <div class="horizontal-slider"
+         ya-no-ui-slider="ctrl.options"
+         ng-model="ctrl.value"></div>
+</section>
+
