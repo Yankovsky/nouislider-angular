@@ -5,6 +5,7 @@ angular.module('exampleApp').controller('TimeoutCtrl', function($timeout) {
 
 	$timeout(function() {
 		that.options = {
+			start: [30, 90],
 			connect: true,
 			step: 1,
 			range: {
@@ -12,6 +13,5 @@ angular.module('exampleApp').controller('TimeoutCtrl', function($timeout) {
 				max: 100
 			}
 		};
-		that.value = [30, 90];
 	}, 1000);
 })

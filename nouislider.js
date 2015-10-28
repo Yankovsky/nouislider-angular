@@ -2,12 +2,41 @@
 
 angular.module('ya.nouislider', [])
 	.value('yaNoUiSliderConfig', {})
-	.directive('yaNoUiSlider', function(yaNoUiSliderConfig) {
-		var defaultEvents = ['change', 'slide'];
+	.directive('yaNoUiSlider', function($timeout, yaNoUiSliderConfig) {
+		function copy(val) {
+			if (angular.isArray(val)) {
+				return val.slice();
+			} else {
+				return val;
+			}
+		}
+
+		function equals(a, b) {
+			if (angular.isArray(a)) {
+				return a[0] === b[0] && a[1] === b[1];
+			} else {
+				return a === b;
+			}
+		}
+
+		function omit(object, property) {
+			var keys = Object.keys(object),
+				index = -1,
+				length = keys.length,
+				result = {};
+
+			while (++index < length) {
+				var key = keys[index];
+				if (key !== property) {
+					result[key] = object[key];
+				}
+			}
+			return result;
+		}
 
 		return {
 			restrict: 'A',
-			require: ['yaNoUiSlider', 'ngModel'],
+			require: 'yaNoUiSlider',
 			scope: {
 				yaNoUiSlider: '=',
 				yaNoUiSliderDisabled: '=',
@@ -15,17 +44,20 @@ angular.module('ya.nouislider', [])
 				yaNoUiSliderHandle2Disabled: '='
 			},
 			controller: function($scope, $element, $attrs) {
-				var that = this;
-				var noUiSliderElement = $element[0],
+				var that = this,
+					noUiSliderElement = $element[0],
+					noUiSliderEvents = $scope.$parent.$eval($attrs.yaNoUiSliderEvents),
+					slideDebounceDelay = $attrs.yaNoUiSliderSlideDebounce || 0,
+					events = slideDebounceDelay && slideDebounceDelay === 'Infinity' ? ['change'] : ['change', 'slide'],
 					noUiSliderInstance,
 					origins,
-					ngModelCtrl,
-					updateOn,
-					events,
-					sliderScope;
+					sliderScope,
+					pendingSlideDebounce;
 
-				// events are not watchable
-				var noUiSliderEvents = $scope.$parent.$eval($attrs.yaNoUiSliderEvents);
+				// allow to get noUiSlider instance from outside of that directive
+				that.getNoUiSlider = function() {
+					return noUiSliderInstance;
+				};
 
 				function toggleDisabled(element, newValue, oldValue) {
 					if (newValue !== oldValue) {
@@ -40,52 +72,52 @@ angular.module('ya.nouislider', [])
 				function destroy() {
 					sliderScope.$destroy();
 					noUiSliderInstance.off('slide change update slide');
-					noUiSliderInstance.destroy()
+					noUiSliderInstance.destroy();
+					$timeout.cancel(pendingSlideDebounce);
 				}
 
 				function createSlider() {
+					function updateValue(newValue) {
+						var newValueCopy = copy(newValue);
+						if (!equals(newValueCopy, latestValue)) {
+							latestValue = newValueCopy;
+							$scope.$applyAsync(function() {
+								if (angular.isArray(newValue)) {
+									$scope.yaNoUiSlider.start[0] = newValue[0];
+									$scope.yaNoUiSlider.start[1] = newValue[1];
+								} else {
+									$scope.yaNoUiSlider.start = newValue;
+								}
+							});
+						}
+					}
+
 					sliderScope = $scope.$new();
-					var options = angular.extend({}, yaNoUiSliderConfig, $scope.yaNoUiSlider, {start: ngModelCtrl.$modelValue});
+					var options = angular.extend({}, yaNoUiSliderConfig, $scope.yaNoUiSlider);
+					var latestValue = copy(options.start);
+					options.start = copy(options.start);
 					noUiSlider.create(noUiSliderElement, options);
 					origins = noUiSliderElement.getElementsByClassName('noUi-origin');
 					noUiSliderInstance = noUiSliderElement.noUiSlider;
 
-					var valueIsArray = angular.isArray(ngModelCtrl.$modelValue);
-					var lastValue;
-					if (valueIsArray) {
-						lastValue = ngModelCtrl.$modelValue.slice();
-					}
-
-					// angular ngModelController doesn't really support non-primitive objects as models
-					if (valueIsArray) {
-						sliderScope.$watch(function() {
-							var modelValueCopy = ngModelCtrl.$modelValue.slice();
-							if (!angular.equals(lastValue, modelValueCopy)) {
-								//if (options.direction === 'rtl') {
-								//	modelValueCopy.reverse();
-								//}
-								lastValue = modelValueCopy;
-								ngModelCtrl.$modelValue = modelValueCopy;
-								ngModelCtrl.$viewValue = modelValueCopy;
-							}
-							return ngModelCtrl.$modelValue;
-						});
-					}
+					sliderScope.$watch(function() {
+						var modelValue = $scope.yaNoUiSlider.start;
+						if (!equals(modelValue, latestValue)) {
+							latestValue = copy(modelValue);
+							noUiSliderInstance.set(copy(modelValue));
+						}
+						return latestValue;
+					});
 
 					angular.forEach(events, function(eventName) {
 						noUiSliderInstance.on(eventName + '.internal', function(values, handle, unencoded) {
-							if (!angular.equals(ngModelCtrl.$modelValue, unencoded)) {
-								if (valueIsArray) {
-									if (options.direction === 'rtl') {
-										unencoded.reverse();
-									}
-									lastValue = unencoded.slice();
-								}
-								ngModelCtrl.$setViewValue(unencoded, eventName);
-								if (updateOn) {
-									// trigger event on element so angular could handle custom updateOn ng-model-option
-									$element.triggerHandler(eventName, unencoded);
-								}
+							if (eventName === 'slide' && slideDebounceDelay) {
+								$timeout.cancel(pendingSlideDebounce);
+								pendingSlideDebounce = $timeout(function() {
+									updateValue(unencoded);
+								}, slideDebounceDelay);
+							} else {
+								updateValue(unencoded);
 							}
 						});
 					});
@@ -106,7 +138,7 @@ angular.module('ya.nouislider', [])
 
 				function initialize() {
 					$scope.$watch(function() {
-						return $scope.yaNoUiSlider;
+						return omit($scope.yaNoUiSlider, 'start');
 					}, function() {
 						if (noUiSliderInstance) {
 							destroy();
@@ -114,39 +146,15 @@ angular.module('ya.nouislider', [])
 						createSlider();
 					}, true);
 
-					var ngModelOptions = ngModelCtrl.$options;
-					updateOn = ngModelOptions && ngModelOptions.updateOn;
-					events = updateOn ? updateOn.split(' ') : defaultEvents;
-
-					ngModelCtrl.$render = function() {
-						noUiSliderInstance.set(ngModelCtrl.$modelValue);
-					};
-
 					$scope.$on('$destroy', destroy);
 				}
 
-				// allow to get noUiSlider instance from outside of that directive
-				that.getNoUiSlider = function() {
-					return noUiSliderInstance;
-				};
-
-				that.init = function(_ngModelCtrl) {
-					ngModelCtrl = _ngModelCtrl
-					var initializeWatcher = $scope.$watchGroup([function() {
-						return ngModelCtrl.$modelValue;
-					}, 'yaNoUiSlider'], function(group) {
-						if (group[0] && group[1]) {
-							initializeWatcher();
-							initialize();
-						}
-					});
-				}
-			},
-			link: function(scope, element, attrs, ctrls) {
-				var yaNoUiSliderCtrl = ctrls[0],
-					ngModelCtrl = ctrls[1];
-
-				yaNoUiSliderCtrl.init(ngModelCtrl);
+				var initializeWatcher = $scope.$watch('yaNoUiSlider', function(options) {
+					if (options) {
+						initializeWatcher();
+						initialize();
+					}
+				});
 			}
 		}
 	});

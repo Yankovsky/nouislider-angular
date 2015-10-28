@@ -10,13 +10,13 @@ angular.module('exampleApp').controller('EventsCtrl', function($timeout) {
 
 	var that = this;
 	that.options = {
+		start: [5, 10],
 		connect: true,
 		range: {
 			min: 0,
 			max: 20
 		}
 	};
-	that.value = [5, 10];
 	that.events = {
 		update: addLogEntry.bind(undefined, 'update'),
 		slide: addLogEntry.bind(undefined, 'slide'),

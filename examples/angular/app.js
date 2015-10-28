@@ -4,34 +4,43 @@ angular.module('exampleApp', ['ya.nouislider', 'ngRoute']).config(function($rout
 	$routeProvider
 		.when('/', {
 			templateUrl: 'basic/basic.html',
-			controller: 'BasicCtrl'
+			controller: 'BasicCtrl',
+			controllerAs: 'ctrl'
 		})
 		.when('/options', {
-			templateUrl: 'options/options.html'
+			templateUrl: 'options/options.html',
+			controller: 'OptionsCtrl',
+			controllerAs: 'ctrl'
 		})
 		.when('/events', {
 			templateUrl: 'events/events.html',
-			controller: 'EventsCtrl'
+			controller: 'EventsCtrl',
+			controllerAs: 'ctrl'
 		})
 		.when('/disable', {
 			templateUrl: 'disable/disable.html',
-			controller: 'DisablingSliderCtrl'
+			controller: 'DisablingSliderCtrl',
+			controllerAs: 'ctrl'
 		})
-		.when('/ng-model-options', {
-			templateUrl: 'ng-model-options/ng-model-options.html',
-			controller: 'NgModelOptionsCtrl'
+		.when('/slide-debounce', {
+			templateUrl: 'slide-debounce/slide-debounce.html',
+			controller: 'SlideDebounceCtrl',
+			controllerAs: 'ctrl'
 		})
 		.when('/updating-slider-options', {
 			templateUrl: 'updating-slider-options/updating-slider-options.html',
-			controller: 'UpdatingSliderOptionsCtrl'
+			controller: 'UpdatingSliderOptionsCtrl',
+			controllerAs: 'ctrl'
 		})
 		.when('/timeout', {
 			templateUrl: 'timeout/timeout.html',
-			controller: 'TimeoutCtrl'
+			controller: 'TimeoutCtrl',
+			controllerAs: 'ctrl'
 		})
 		.when('/destroy', {
 			templateUrl: 'destroy/destroy.html',
-			controller: 'DestroyCtrl'
+			controller: 'DestroyCtrl',
+			controllerAs: 'ctrl'
 		});
 }).value('noUiSliderConfig', {
 	step: 1

@@ -1,21 +1,19 @@
-<section ng-controller="DisablingSliderCtrl as ctrl">
+<section>
     <h1>Disabling a slider</h1>
 
-    <div>{{ctrl.value}}</div>
+    <div>{{ctrl.options1.start}}</div>
     <div class="horizontal-slider"
          ya-no-ui-slider="ctrl.options1"
          ya-no-ui-slider-disabled="ctrl.sliderDisabled"
          ya-no-ui-slider-handle1-disabled="ctrl.sliderHandle1Disabled"
-         ya-no-ui-slider-handle2-disabled="ctrl.sliderHandle2Disabled"
-         ng-model="ctrl.value1"></div>
+         ya-no-ui-slider-handle2-disabled="ctrl.sliderHandle2Disabled"></div>
 
-    <div>{{ctrl.value}}</div>
+    <div>{{ctrl.options2.start}}</div>
     <div class="horizontal-slider"
          ya-no-ui-slider="ctrl.options2"
          ya-no-ui-slider-disabled="ctrl.sliderDisabled"
          ya-no-ui-slider-handle1-disabled="ctrl.sliderHandle1Disabled"
-         ya-no-ui-slider-handle2-disabled="ctrl.sliderHandle2Disabled"
-         ng-model="ctrl.value2"></div>
+         ya-no-ui-slider-handle2-disabled="ctrl.sliderHandle2Disabled"></div>
 
     <label>
         Toggle slider

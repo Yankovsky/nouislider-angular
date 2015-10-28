@@ -1,4 +1,4 @@
-<section ng-controller="EventsCtrl as ctrl">
+<section>
     <h1>Events</h1>
 
     <div class="event" ng-repeat="(eventName, handler) in ctrl.events"
@@ -6,12 +6,11 @@
         {{eventName}}
     </div>
 
-    <div>{{ctrl.value}}</div>
+    <div>{{ctrl.options.start}}</div>
     <div class="horizontal-slider"
          ya-no-ui-slider="ctrl.options"
-         ya-no-ui-slider-events="ctrl.events"
-         ng-model="ctrl.value"></div>
-    <input type="number" ng-model="ctrl.value[0]"/>
-    <input type="number" ng-model="ctrl.value[1]"/>
-    <button ng-click="ctrl.value = [5, 15]">set [5, 15]</button>
+         ya-no-ui-slider-events="ctrl.events"></div>
+    <input type="number" ng-model="ctrl.options.start[0]"/>
+    <input type="number" ng-model="ctrl.options.start[1]"/>
+    <button ng-click="ctrl.options.start = [5, 15]">set [5, 15]</button>
 </section>
