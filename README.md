@@ -1,6 +1,6 @@
 # nouislider-angular
 
-Check demo at http://yankovsky.github.io/nouislider-angular/examples/angular
+Check demo at http://yankovsky.github.io/nouislider-angular/examples
 
 You can pass any [nouislider options](http://refreshless.com/nouislider/slider-options/) options to ya-no-ui-slider directive.
 
