@@ -37,7 +37,8 @@ $scope.eventHandlers = {
     update: function(values, handle, unencoded) {},
     slide: function(values, handle, unencoded) {},
     set: function(values, handle, unencoded) {},
-    change: function(values, handle, unencoded) {},
+    change: function(values, handle, unencoded) {}
+}
 ```
 ```html
 <div ya-no-ui-slider='options' 
