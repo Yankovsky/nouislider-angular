@@ -21,7 +21,7 @@
   ],
   "dependencies": {
     "angular": "~1.4.7",
-    "nouislider": "~8.0.2"
+    "nouislider": "~8.1.0"
   },
   "devDependencies": {
     "angular-route": "~1.4.7"
