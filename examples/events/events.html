@@ -1,0 +1,16 @@
+<section>
+    <h1>Events</h1>
+
+    <div class="event" ng-repeat="(eventName, handler) in ctrl.events"
+         ng-class="{highlighted: ctrl.highlighted[eventName]}">
+        {{eventName}}
+    </div>
+
+    <div>{{ctrl.options.start}}</div>
+    <div class="horizontal-slider"
+         ya-no-ui-slider="ctrl.options"
+         ya-no-ui-slider-events="ctrl.events"></div>
+    <input type="number" ng-model="ctrl.options.start[0]"/>
+    <input type="number" ng-model="ctrl.options.start[1]"/>
+    <button ng-click="ctrl.options.start = [5, 15]">set [5, 15]</button>
+</section>

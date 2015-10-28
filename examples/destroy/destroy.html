@@ -1,0 +1,9 @@
+<section>
+    <h1>Destroy</h1>
+
+    <button ng-click="ctrl.shown = !ctrl.shown">toggle slider</button>
+    <div>{{ctrl.options.start}}</div>
+    <div class="horizontal-slider"
+         ng-if="ctrl.shown"
+         ya-no-ui-slider="ctrl.options"></div>
+</section>

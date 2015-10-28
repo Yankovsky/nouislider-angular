@@ -1,107 +1,161 @@
-angular.module('ya.nouislider', []).value('noUiSliderConfig', {}).directive('noUiSlider', function(noUiSliderConfig) {
-  noUiSliderConfig = noUiSliderConfig || {}
-  function handlesCount(value) {
-    if (angular.isUndefined(value)) return 0
-    return angular.isArray(value) && value.length == 2 ? 2 : 1
-  }
+"use strict";
 
-  return {
-    restrict: 'A',
-    require: 'ngModel',
-    scope: {
-      ngDisabled: '=',
-      noUiSlider: '=',
-      noUiSliderLib: '=',
-      noUiSliderEvents: '=',
-      noUiSliderTrigger: '@'
-    },
-    link: function(scope, elements, attrs, ngModel) {
-      var initialized = false,
-        previousValue = undefined,
-        element = elements[0];
+angular.module('ya.nouislider', [])
+  .value('yaNoUiSliderConfig', {})
+  .directive('yaNoUiSlider', function($timeout, yaNoUiSliderConfig) {
+    function copy(val) {
+      if (angular.isArray(val)) {
+        return val.slice();
+      } else {
+        return val;
+      }
+    }
 
-      scope.$on('$destroy', function() {
-        element.noUiSlider.off('slide set change update');
-      });
+    function equals(a, b) {
+      if (angular.isArray(a)) {
+        return a[0] === b[0] && a[1] === b[1];
+      } else {
+        return a === b;
+      }
+    }
 
-      function tryToInit() {
-        var value = ngModel.$viewValue,
-          options = angular.extend({}, noUiSliderConfig, scope.noUiSlider, {start: value}),
-          noUiSlider = scope.noUiSliderLib ? scope.noUiSliderLib : window.noUiSlider;
-        if (angular.isDefined(options.start) && angular.isDefined(options.range)) {
-          previousValue = angular.copy(value);
-          if (!initialized) {
-            noUiSlider.create(element, options);
-            angular.forEach(scope.noUiSliderEvents, function(event, handler) {
-              element.noUiSlider.on(event, handler);
-            });
-            element.noUiSlider.on((scope.noUiSliderTrigger || 'update'), function(value) {
-              // NOTE: Reading the value using .get() because handler always returns an array
-              value = element.noUiSlider.get();
-              var valueIsArray = angular.isArray(value);
-              if (valueIsArray) value = value[0];
-              value = parseFloat(value) || 0;
-              value = Math.min(Math.max(value, scope.noUiSlider.range.min), scope.noUiSlider.range.max);
-              newValue = valueIsArray ? [value] : value;
+    function omit(object, property) {
+      var keys = Object.keys(object),
+        index = -1,
+        length = keys.length,
+        result = {};
 
-              ngModel.$setViewValue(newValue);
-            });
-            // Disable the field per request
-            element.removeAttribute('disabled');
-            if (scope.ngDisabled) {
+      while (++index < length) {
+        var key = keys[index];
+        if (key !== property) {
+          result[key] = object[key];
+        }
+      }
+      return result;
+    }
+
+    return {
+      restrict: 'A',
+      require: 'yaNoUiSlider',
+      scope: {
+        yaNoUiSlider: '=',
+        yaNoUiSliderDisabled: '=',
+        yaNoUiSliderHandle1Disabled: '=',
+        yaNoUiSliderHandle2Disabled: '=',
+        yaNoUiSliderSlideDebounce: '@'
+      },
+      controller: function($scope, $element, $attrs) {
+        var that = this,
+          noUiSliderElement = $element[0],
+          noUiSliderEvents = $scope.$parent.$eval($attrs.yaNoUiSliderEvents),
+          slideDebounceDelay = $scope.yaNoUiSliderSlideDebounce || 0,
+          events = slideDebounceDelay && slideDebounceDelay === 'Infinity' ? ['change'] : ['change', 'slide'],
+          noUiSliderInstance,
+          origins,
+          sliderScope,
+          pendingSlideDebounce;
+
+        // allow to get noUiSlider instance from outside of that directive
+        that.getNoUiSlider = function() {
+          return noUiSliderInstance;
+        };
+
+        function toggleDisabled(element, newValue, oldValue) {
+          if (newValue !== oldValue) {
+            if (newValue) {
               element.setAttribute('disabled', true);
+            } else {
+              element.removeAttribute('disabled');
             }
           }
-          initialized = true;
         }
-      }
 
-      ngModel.$render = function() {
-        if (!initialized) return
-        var value = ngModel.$viewValue,
-          newValue = undefined
-        if (handlesCount(value) == 2) {
-          value[0] = Math.max(value[0], scope.noUiSlider.range.min)
-          value[1] = Math.min(value[1], scope.noUiSlider.range.max)
-          var fromNotChanged = value[0] == previousValue[0],
-            toNotChanged = value[1] == previousValue[1]
-          previousValue = angular.copy(value)
-          if (value[0] > value[1]) {
-            if (fromNotChanged) value[1] = value[0]
-            if (toNotChanged) value[0] = value[1]
-            if (value[0] > value[1]) value[1] = value[0]
+        function destroy() {
+          sliderScope.$destroy();
+          noUiSliderInstance.off('slide change update slide');
+          noUiSliderInstance.destroy();
+          $timeout.cancel(pendingSlideDebounce);
+        }
+
+        function createSlider() {
+          function updateValue(newValue) {
+            var newValueCopy = copy(newValue);
+            if (!equals(newValueCopy, latestValue)) {
+              latestValue = newValueCopy;
+              $scope.$applyAsync(function() {
+                if (angular.isArray(newValue)) {
+                  $scope.yaNoUiSlider.start[0] = newValue[0];
+                  $scope.yaNoUiSlider.start[1] = newValue[1];
+                } else {
+                  $scope.yaNoUiSlider.start = newValue;
+                }
+              });
+            }
           }
-          newValue = [fromNotChanged ? null : value[0], toNotChanged ? null : value[1]]
-        } else {
-          var valueIsArray = angular.isArray(value)
-          if (valueIsArray) value = value[0]
-          value = parseFloat(value) || 0
-          value = Math.min(Math.max(value, scope.noUiSlider.range.min), scope.noUiSlider.range.max)
-          newValue = valueIsArray ? [value] : value
-          ngModel.$setViewValue(newValue);
+
+          sliderScope = $scope.$new();
+          var options = angular.extend({}, yaNoUiSliderConfig, $scope.yaNoUiSlider);
+          var latestValue = copy(options.start);
+          options.start = copy(options.start);
+          noUiSlider.create(noUiSliderElement, options);
+          origins = noUiSliderElement.getElementsByClassName('noUi-origin');
+          noUiSliderInstance = noUiSliderElement.noUiSlider;
+
+          sliderScope.$watch(function() {
+            var modelValue = $scope.yaNoUiSlider.start;
+            if (!equals(modelValue, latestValue)) {
+              latestValue = copy(modelValue);
+              noUiSliderInstance.set(copy(modelValue));
+            }
+            return latestValue;
+          });
+
+          angular.forEach(events, function(eventName) {
+            noUiSliderInstance.on(eventName + '.internal', function(values, handle, unencoded) {
+              if (eventName === 'slide' && slideDebounceDelay) {
+                $timeout.cancel(pendingSlideDebounce);
+                pendingSlideDebounce = $timeout(function() {
+                  updateValue(unencoded);
+                }, slideDebounceDelay);
+              } else {
+                updateValue(unencoded);
+              }
+            });
+          });
+
+          angular.forEach(noUiSliderEvents, function(handler, event) {
+            noUiSliderInstance.on(event + '.noUiSlider', function() {
+              var handlerArguments = arguments;
+              $scope.$applyAsync(function() {
+                handler(handlerArguments);
+              });
+            });
+          });
+
+          sliderScope.$watch('yaNoUiSliderDisabled', toggleDisabled.bind(undefined, noUiSliderElement));
+          sliderScope.$watch('yaNoUiSliderHandle1Disabled', toggleDisabled.bind(undefined, origins[0]));
+          sliderScope.$watch('yaNoUiSliderHandle2Disabled', toggleDisabled.bind(undefined, origins[1]));
         }
-        element.noUiSlider.set(newValue);
+
+        function initialize() {
+          $scope.$watch(function() {
+            return omit($scope.yaNoUiSlider, 'start');
+          }, function() {
+            if (noUiSliderInstance) {
+              destroy();
+            }
+            createSlider();
+          }, true);
+
+          $scope.$on('$destroy', destroy);
+        }
+
+        var initializeWatcher = $scope.$watch('yaNoUiSlider', function(options) {
+          if (options) {
+            initializeWatcher();
+            initialize();
+          }
+        });
       }
-
-      scope.$watch(function() {
-        return scope.noUiSlider
-      }, function() {
-        tryToInit()
-      }, true)
-
-      scope.$watch(function() {
-        return ngModel.$viewValue
-      }, function() {
-        ngModel.$render()
-      }, true)
-
-      scope.$watch(function() {
-        return handlesCount(ngModel.$viewValue)
-      }, function(newValue) {
-        if (angular.isDefined(newValue)) {
-          tryToInit()
-        }
-      }, true)
     }
-  }
-})
+  });

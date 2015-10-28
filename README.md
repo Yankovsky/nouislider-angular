@@ -1,44 +1,37 @@
-Check demo at http://yankovsky.github.io/nouislider-angular/example/
+# nouislider-angular
 
-You can pass any nouislider options to no-ui-slider directive. You should use ng-model instead of start property.
+Check demo at http://yankovsky.github.io/nouislider-angular/examples/angular
 
-Basic use-case:
+You can pass any [nouislider options](http://refreshless.com/nouislider/slider-options/) options to ya-no-ui-slider directive.
+
+## Basic usage
 
 ```javascript
 angular.module('sampleApp', ['ya.nouislider'])
   .controller('SampleCtrl', function($scope) {
-    $scope.values = [20, 70];
     $scope.options = {
-      range: {min: 0, max: 100}
-    };
+        start: [20, 70],
+        range: {min: 0, max: 100}
+    }
 })
 ```
 ```html
-<div no-ui-slider='options' ng-model='values'></div>
+<div ya-no-ui-slider='options'></div>
 ```
 
-You can set global configuration value noUiSliderConfig and all nouislider options will inherit from it:
+## Options
+
+#### Global config
+
+You can set global configuration value yaNoUiSliderConfig and all nouislider options will inherit from it:
 
 ```javascript
-angular.module('sampleApp', ['ya.nouislider']).value('noUiSliderConfig', {step: 1})
+angular.module('sampleApp', ['ya.nouislider'])
+    .value('yaNoUiSliderConfig', {step: 1})
 ```
 
-noUiSlider library can also be passed to element, otherwise it is expected to be found from `window.noUiSlider`:
+#### Event handlers
 
-```html
-<!-- $scope.lib = noUiSlider || window.noUiSlider; -->
-<div no-ui-slider='options' no-ui-slider-lib='lib' ng-model='values'></div>
-```
+#### Disable slider or individual handlers
 
-Also, one can boost the performance by triggering the update only on `change` (default: `update`) and/or adjusting the ng-model-options:
-
-```html
-<div
-  no-ui-slider='options'
-  ng-ui-slider-trigger='change'
-  ng-model='values'
-  ng-model-options='{ debounce: 500 }'>
-</div>
-```
-
-Field can be disabled with `ng-disabled='true'`
+#### Slide event debounce

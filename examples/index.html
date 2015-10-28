@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>nouislider-angular examples</title>
+        <link rel="stylesheet" href="../bower_components/nouislider/distribute/nouislider.min.css"/>
+        <style>
+            .horizontal-slider {
+                width: 300px;
+                margin-top: 30px;
+                margin-bottom: 30px;
+            }
+
+            .vertical-slider {
+                height: 300px;
+                margin: 0 auto 30px;
+            }
+
+            label {
+                display: block;
+            }
+
+            .event {
+                margin: 10px;
+                background-color: #FFF;
+                transition: all 0.25s;
+                padding: 0 5px;
+                display: inline-block;
+                font: 700 10px/26px Arial;
+                color: #BBB;
+                text-transform: uppercase;
+                text-align: center;
+                border-radius: 4px;
+                border: 1px solid #ddd;
+            }
+
+            .highlighted {
+                background: deepskyblue;
+                color: #fff;
+            }
+
+            h1 {
+                font-size: 2em;
+
+            }
+        </style>
+
+        <script src='../bower_components/angular/angular.js'></script>
+        <script src='../bower_components/angular-route/angular-route.js'></script>
+        <script src='../bower_components/nouislider/distribute/nouislider.js'></script>
+        <script src='../nouislider.js'></script>
+        <script src='app.js'></script>
+        <script src='basic/basic.js'></script>
+        <script src='options/options.js'></script>
+        <script src='events/events.js'></script>
+        <script src='disable/disable.js'></script>
+        <script src='slide-debounce/slide-debounce.js'></script>
+        <script src='updating-slider-options/updating-slider-options.js'></script>
+        <script src='timeout/timeout.js'></script>
+        <script src='destroy/destroy.js'></script>
+    </head>
+    <body ng-app='exampleApp'>
+        <a href="#/">Basic</a> |
+        <a href="#/options">Options</a> |
+        <a href="#events">Events</a> |
+        <a href="#disable">Disable</a> |
+        <a href="#slide-debounce">Slide debounce</a> |
+        <a href="#updating-slider-options">Updating slider options</a> |
+        <a href="#timeout">Timeout</a> |
+        <a href="#destroy">Destroy</a>
+
+        <div ng-view></div>
+    </body>
+</html>

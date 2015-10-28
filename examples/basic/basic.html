@@ -1,0 +1,16 @@
+<section>
+    <h1>Basic</h1>
+
+    <h2>One handle</h2>
+    <input type="number" ng-model="ctrl.options1.start"/>
+    <div class="horizontal-slider"
+         ya-no-ui-slider="ctrl.options1"></div>
+    <button ng-click="ctrl.options1.start = 10">set 10</button>
+
+    <h2>Two handles</h2>
+    <input type="number" ng-model="ctrl.options2.start[0]"/>
+    <input type="number" ng-model="ctrl.options2.start[1]"/>
+    <div class="horizontal-slider"
+         ya-no-ui-slider="ctrl.options2"></div>
+    <button ng-click="ctrl.options2.start = [15, 50]">set [15, 50]</button>
+</section>
