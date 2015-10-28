@@ -1,8 +1,10 @@
+# nouislider-angular
+
 Check demo at http://yankovsky.github.io/nouislider-angular/examples/angular
 
-You can pass any nouislider options to ya-no-ui-slider directive.
+You can pass any [nouislider options](http://refreshless.com/nouislider/slider-options/) options to ya-no-ui-slider directive.
 
-Basic use-case:
+## Basic usage
 
 ```javascript
 angular.module('sampleApp', ['ya.nouislider'])
@@ -17,8 +19,13 @@ angular.module('sampleApp', ['ya.nouislider'])
 <div ya-no-ui-slider='options'></div>
 ```
 
-You can set global configuration value noUiSliderConfig and all nouislider options will inherit from it:
+## Options
+
+#### Global config
+
+You can set global configuration value yaNoUiSliderConfig and all nouislider options will inherit from it:
 
 ```javascript
-angular.module('sampleApp', ['ya.nouislider']).value('noUiSliderConfig', {step: 1})
+angular.module('sampleApp', ['ya.nouislider'])
+    .value('yaNoUiSliderConfig', {step: 1})
 ```

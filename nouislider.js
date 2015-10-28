@@ -41,13 +41,14 @@ angular.module('ya.nouislider', [])
 				yaNoUiSlider: '=',
 				yaNoUiSliderDisabled: '=',
 				yaNoUiSliderHandle1Disabled: '=',
-				yaNoUiSliderHandle2Disabled: '='
+				yaNoUiSliderHandle2Disabled: '=',
+				yaNoUiSliderSlideDebounce: '@'
 			},
 			controller: function($scope, $element, $attrs) {
 				var that = this,
 					noUiSliderElement = $element[0],
 					noUiSliderEvents = $scope.$parent.$eval($attrs.yaNoUiSliderEvents),
-					slideDebounceDelay = $attrs.yaNoUiSliderSlideDebounce || 0,
+					slideDebounceDelay = $scope.yaNoUiSliderSlideDebounce || 0,
 					events = slideDebounceDelay && slideDebounceDelay === 'Infinity' ? ['change'] : ['change', 'slide'],
 					noUiSliderInstance,
 					origins,
