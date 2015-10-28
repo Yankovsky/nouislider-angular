@@ -60,3 +60,7 @@ $scope.eventHandlers = {
 <div ya-no-ui-slider='options' 
      ya-no-ui-slider-slide-debounce='300'></div>
 ```
+
+## Building minified version
+
+To build minified version use `npm run build` command.
