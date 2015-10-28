@@ -56,9 +56,14 @@ $scope.eventHandlers = {
 
 #### Slide event debounce
 
+Use number to specify delay in ms or use special value "Infinity" to disable updating model on slide event.
+
 ```html
 <div ya-no-ui-slider='options' 
      ya-no-ui-slider-slide-debounce='300'></div>
+     
+<div ya-no-ui-slider='options' 
+     ya-no-ui-slider-slide-debounce='Infinity'></div>
 ```
 
 ## Building minified version
