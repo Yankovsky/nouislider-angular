@@ -32,6 +32,30 @@ angular.module('sampleApp', ['ya.nouislider'])
 
 #### Event handlers
 
+```javascript
+$scope.eventHandlers = {
+    update: function(values, handle, unencoded) {},
+    slide: function(values, handle, unencoded) {},
+    set: function(values, handle, unencoded) {},
+    change: function(values, handle, unencoded) {},
+```
+```html
+<div ya-no-ui-slider='options' 
+     ya-no-ui-slider-events='eventHandlers'></div>
+```
+
 #### Disable slider or individual handlers
 
+```html
+<div ya-no-ui-slider='options' 
+     ya-no-ui-slider-disabled='sliderDisabled'
+     ya-no-ui-slider-handle1-disabled='handle1Disabled'
+     ya-no-ui-slider-handle2-disabled='handle2Disabled'></div>
+```
+
 #### Slide event debounce
+
+```html
+<div ya-no-ui-slider='options' 
+     ya-no-ui-slider-slide-debounce='300'></div>
+```
