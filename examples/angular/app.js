@@ -1,6 +1,6 @@
 "use strict";
 
-angular.module('exampleApp', ['ya.nouislider', 'ngRoute']).config(function($routeProvider, $locationProvider) {
+angular.module('exampleApp', ['ya.nouislider', 'ngRoute']).config(function($routeProvider) {
 	$routeProvider
 		.when('/', {
 			templateUrl: 'basic/basic.html',
