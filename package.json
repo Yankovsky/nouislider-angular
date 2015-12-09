@@ -13,12 +13,11 @@
     "nouislider"
   ],
   "devDependencies": {
-    "ng-annotate": "^1.0.2",
     "uglify-js": "^2.4.24"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "ng-annotate --add nouislider.js | uglifyjs > nouislider.min.js"
+    "build": "uglifyjs nouislider.js -o nouislider.min.js -c -m"
   },
   "repository": {
     "type": "git",

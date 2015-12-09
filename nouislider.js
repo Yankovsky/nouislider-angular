@@ -2,7 +2,7 @@
 
 angular.module('ya.nouislider', [])
   .value('yaNoUiSliderConfig', {})
-  .directive('yaNoUiSlider', function($timeout, yaNoUiSliderConfig) {
+  .directive('yaNoUiSlider', ['$timeout', 'yaNoUiSliderConfig', function($timeout, yaNoUiSliderConfig) {
     function copy(val) {
       if (angular.isArray(val)) {
         return val.slice();
@@ -44,7 +44,7 @@ angular.module('ya.nouislider', [])
         yaNoUiSliderHandle2Disabled: '=',
         yaNoUiSliderSlideDebounce: '@'
       },
-      controller: function($scope, $element, $attrs) {
+      controller: ['$scope', '$element', '$attrs', function($scope, $element, $attrs) {
         var that = this,
           noUiSliderElement = $element[0],
           noUiSliderEvents = $scope.$parent.$eval($attrs.yaNoUiSliderEvents),
@@ -156,6 +156,6 @@ angular.module('ya.nouislider', [])
             initialize();
           }
         });
-      }
+      }]
     }
-  });
+  }]);
