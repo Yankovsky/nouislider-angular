@@ -4,6 +4,20 @@ Check demo at http://yankovsky.github.io/nouislider-angular/examples
 
 You can pass any [nouislider options](http://refreshless.com/nouislider/slider-options/) options to ya-no-ui-slider directive.
 
+## Installation
+
+#### Install with NPM
+
+```
+npm install nouislider-angular
+```
+
+#### Install with Bower
+
+```
+bower install nouislider-angular
+```
+
 ## Basic usage
 
 ```javascript
