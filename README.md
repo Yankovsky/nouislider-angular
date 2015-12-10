@@ -4,6 +4,20 @@ Check demo at http://yankovsky.github.io/nouislider-angular/examples
 
 You can pass any [nouislider options](http://refreshless.com/nouislider/slider-options/) options to ya-no-ui-slider directive.
 
+## Installation
+
+#### Install with NPM
+
+```
+npm install nouislider-angular
+```
+
+#### Install with Bower
+
+```
+bower install nouislider-angular
+```
+
 ## Basic usage
 
 ```javascript
@@ -37,7 +51,8 @@ $scope.eventHandlers = {
     update: function(values, handle, unencoded) {},
     slide: function(values, handle, unencoded) {},
     set: function(values, handle, unencoded) {},
-    change: function(values, handle, unencoded) {},
+    change: function(values, handle, unencoded) {}
+}
 ```
 ```html
 <div ya-no-ui-slider='options' 
@@ -55,7 +70,16 @@ $scope.eventHandlers = {
 
 #### Slide event debounce
 
+Use number to specify delay in ms or use special value "Infinity" to disable updating model on slide event.
+
 ```html
 <div ya-no-ui-slider='options' 
      ya-no-ui-slider-slide-debounce='300'></div>
+     
+<div ya-no-ui-slider='options' 
+     ya-no-ui-slider-slide-debounce='Infinity'></div>
 ```
+
+## Building minified version
+
+To build minified version use `npm run build` command.

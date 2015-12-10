@@ -37,6 +37,11 @@ angular.module('exampleApp', ['ya.nouislider', 'ngRoute']).config(function($rout
 			controller: 'TimeoutCtrl',
 			controllerAs: 'ctrl'
 		})
+		.when('/tooltips', {
+			templateUrl: 'tooltips/tooltips.html',
+			controller: 'TooltipsCtrl',
+			controllerAs: 'ctrl'
+		})
 		.when('/destroy', {
 			templateUrl: 'destroy/destroy.html',
 			controller: 'DestroyCtrl',
