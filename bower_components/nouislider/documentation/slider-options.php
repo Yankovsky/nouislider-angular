@@ -54,7 +54,7 @@
 
 	<div class="view">
 
-		<p>The connect setting can be used to control the bar between the handles, or the edges of the slider. Use <code>"lower"</code> to connect to the lower side, or <code>"upper"</code> to connect to the upper side. Setting <code>true</code> sets the bar between the handles.</p>
+		<p>The connect setting can be used to control the (green) bar between the handles, or the edges of the slider. Use <code>"lower"</code> to connect to the lower side, or <code>"upper"</code> to connect to the upper side. Setting <code>true</code> sets the bar between the handles.</p>
 
 		<div class="example">
 			<div id="slider-connect"></div>
@@ -254,6 +254,37 @@
 		<div class="viewer-content">
 			<?php code('direction-link'); ?>
 		</div>
+	</div>
+
+</section>
+
+
+<?php sect('tooltips'); ?>
+<h2>Tooltips</h2>
+
+<section>
+
+	<div class="view">
+
+		<p>noUiSlider can provide a basic tooltip without using its events system. Set the <code>tooltips</code> option to <code>true</code> to enable. This option can also accept <a href="/nouislider/slider-read-write/#section-formatting">formatting options</a> to format the tooltips content.</p>
+
+		<div class="example overflow">
+			<div id="slider-tooltips"></div>
+			<?php run('tooltips'); ?>
+		</div>
+
+		<div class="options">
+			<strong>Default</strong>
+			<div><code>false</code></div>
+
+			<strong>Accepted values</strong>
+			<div><code>true</code>, <code>{ to: function() }</code></div>
+		</div>
+	</div>
+
+	<div class="side">
+
+		<?php code('tooltips'); ?>
 	</div>
 
 </section>
