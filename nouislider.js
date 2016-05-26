@@ -84,8 +84,12 @@ angular.module('ya.nouislider', [])
               latestValue = newValueCopy;
               $scope.$applyAsync(function() {
                 if (angular.isArray(newValue)) {
-                  $scope.yaNoUiSlider.start[0] = newValue[0];
-                  $scope.yaNoUiSlider.start[1] = newValue[1];
+                  if (angular.isArray($scope.yaNoUiSlider.start)) {
+                    $scope.yaNoUiSlider.start[0] = newValue[0];
+                    $scope.yaNoUiSlider.start[1] = newValue[1];
+                  } else {
+                    $scope.yaNoUiSlider.start = newValue[0];
+                  }
                 } else {
                   $scope.yaNoUiSlider.start = newValue;
                 }
