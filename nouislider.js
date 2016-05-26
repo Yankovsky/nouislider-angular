@@ -3,20 +3,19 @@
 angular.module('ya.nouislider', [])
   .value('yaNoUiSliderConfig', {})
   .directive('yaNoUiSlider', ['$timeout', 'yaNoUiSliderConfig', function($timeout, yaNoUiSliderConfig) {
+    function toArray(val) {
+      return angular.isArray(val) ? val : [val];
+    }
+
     function copy(val) {
-      if (angular.isArray(val)) {
-        return val.slice();
-      } else {
-        return val;
-      }
+      return toArray(val).slice();
     }
 
     function equals(a, b) {
-      if (angular.isArray(a)) {
-        return a[0] === b[0] && a[1] === b[1];
-      } else {
-        return a === b;
-      }
+      a = toArray(a);
+      b = toArray(b);
+
+      return a[0] === b[0] && a[1] === b[1];
     }
 
     function omit(object, property) {
