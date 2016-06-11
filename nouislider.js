@@ -2,21 +2,20 @@
 
 angular.module('ya.nouislider', [])
   .value('yaNoUiSliderConfig', {})
-  .directive('yaNoUiSlider', ['$timeout', 'yaNoUiSliderConfig', function($timeout, yaNoUiSliderConfig) {
+  .directive('yaNoUiSlider', ['$timeout', '$log', 'yaNoUiSliderConfig', function($timeout, $log, yaNoUiSliderConfig) {
+    function toArray(val) {
+      return angular.isArray(val) ? val : [val];
+    }
+
     function copy(val) {
-      if (angular.isArray(val)) {
-        return val.slice();
-      } else {
-        return val;
-      }
+      return toArray(val).slice();
     }
 
     function equals(a, b) {
-      if (angular.isArray(a)) {
-        return a[0] === b[0] && a[1] === b[1];
-      } else {
-        return a === b;
-      }
+      a = toArray(a);
+      b = toArray(b);
+
+      return a[0] === b[0] && a[1] === b[1];
     }
 
     function omit(object, property) {
@@ -84,8 +83,12 @@ angular.module('ya.nouislider', [])
               latestValue = newValueCopy;
               $scope.$applyAsync(function() {
                 if (angular.isArray(newValue)) {
-                  $scope.yaNoUiSlider.start[0] = newValue[0];
-                  $scope.yaNoUiSlider.start[1] = newValue[1];
+                  if (angular.isArray($scope.yaNoUiSlider.start)) {
+                    $scope.yaNoUiSlider.start[0] = newValue[0];
+                    $scope.yaNoUiSlider.start[1] = newValue[1];
+                  } else {
+                    $scope.yaNoUiSlider.start = newValue[0];
+                  }
                 } else {
                   $scope.yaNoUiSlider.start = newValue;
                 }
@@ -134,7 +137,12 @@ angular.module('ya.nouislider', [])
 
           sliderScope.$watch('yaNoUiSliderDisabled', toggleDisabled.bind(undefined, noUiSliderElement));
           sliderScope.$watch('yaNoUiSliderHandle1Disabled', toggleDisabled.bind(undefined, origins[0]));
-          sliderScope.$watch('yaNoUiSliderHandle2Disabled', toggleDisabled.bind(undefined, origins[1]));
+          sliderScope.$watch('yaNoUiSliderHandle2Disabled', function(newValue, oldValue) {
+            if (!origins[1]) {
+              return $log.warn('Warning: attempt to toggle disabled state of second handle using ya-no-ui-slider-handle2-disabled attribute in one-handle slider, nouislider-angular is ignoring such call.');
+            }
+            toggleDisabled(origins[1], newValue, oldValue);
+          });
         }
 
         function initialize() {

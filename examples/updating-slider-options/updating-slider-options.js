@@ -7,7 +7,8 @@ angular.module('exampleApp').controller('UpdatingSliderOptionsCtrl', function() 
 		range: {
 			min: 0,
 			max: 40
-		}
+		},
+		pips: { mode: 'steps', density: 2 }
 	};
 	that.setRange = function(min, max) {
 		that.options.range = {
