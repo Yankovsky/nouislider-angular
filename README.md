@@ -80,6 +80,10 @@ Use number to specify delay in ms or use special value "Infinity" to disable upd
      ya-no-ui-slider-slide-debounce='Infinity'></div>
 ```
 
+## Development
+
+For development use examples/index.html file and some local web server.
+
 ## Building minified version
 
 To build minified version use `npm run build` command.
