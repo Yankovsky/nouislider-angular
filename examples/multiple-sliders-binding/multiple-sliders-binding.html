@@ -1,0 +1,23 @@
+<section>
+    <h1>Multiple sliders binding</h1>
+
+    Linked issues/resources:
+    <ul>
+        <li>
+            <a href="https://github.com/Yankovsky/nouislider-angular/issues/14">Add separate binding for value</a>
+        </li>
+        <li>
+            <a href="http://stackoverflow.com/questions/36306783/nouislider-in-angular-bind-to-array-of-numbers">NoUiSlider in angular - bind to array of numbers</a>
+        </li>
+    </ul>
+
+    <button ng-click="ctrl.addSlider(ctrl.rand())">Add slider</button>
+
+    <div>{{ctrl.numbers}}</div>
+
+    <div ng-repeat="options in ctrl.slidersOptions" style="display: flex; align-items: center;">
+        <div class="horizontal-slider"
+             ya-no-ui-slider="options"></div>
+        <button ng-click="ctrl.removeSlider($index)" style="margin: 0 30px;">X</button>
+    </div>
+</section>
