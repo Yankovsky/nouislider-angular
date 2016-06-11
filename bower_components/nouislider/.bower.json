@@ -23,14 +23,14 @@
   "author": {
     "name": "Leon Gersen"
   },
-  "version": "8.1.0",
-  "_release": "8.1.0",
+  "version": "8.5.1",
+  "_release": "8.5.1",
   "_resolution": {
     "type": "version",
-    "tag": "8.1.0",
-    "commit": "606ead30046e579237674c65ddab7cc9dfba9e0f"
+    "tag": "8.5.1",
+    "commit": "772dc921563f56ab8c5dc145068f64b6acef5df1"
   },
-  "_source": "git://github.com/leongersen/noUiSlider.git",
-  "_target": "~8.1.0",
+  "_source": "https://github.com/leongersen/noUiSlider.git",
+  "_target": "~8.5.1",
   "_originalSource": "nouislider"
 }

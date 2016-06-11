@@ -63,18 +63,22 @@
 
 	<div class="view">
 
-		<p>Sometimes, you'll want to update your setup of noUiSlider after you initialized it. Maybe you've gotten new data from an Ajax request, or you want to reflect changes in other filters in the slider. noUiSlider has a <code>destroy</code> method, so you can remove a slider. By storing the initial settings in a variable, they can easily be modified.</p>
-	
-		<p>For this example, we'll use a slider, and two buttons to change the <code>range</code> option. We'll show the value in a <code>&lt;span&gt;</code>, so you can always see the value.</p>
+		<p>noUiSlider has an <code>updateOptions(newOptions, fireSetEvent)</code> method that can change the <code>'margin'</code>, <code>'limit'</code>, <code>'step'</code>, <code>'range'</code>, <code>'animate'</code> and <code>'snap'</code> options. All other options require changes to the slider's HTML or event bindings.</p>
 
-		<p>When a button is clicked, we'll read the data-range attribute it has, and rebuild the slider with the new value.</p>
+		<p>The <code>'update'</code> event fires after updating the slider.</p>
+
+		<p>By default, the sliders <strong>values remain unchanged</strong>. To update the slider values, <code>newOptions</code> may also contain a <code>values</code> property</a> that matches the signature of the <a href="/nouislider/slider-read-write/#section-setting"><code>set</code></a> method.</p>
+
+		<p>The <code>'set'</code> event fires when the slider values are restored. If this is undesired behaviour, you can pass <code>false</code> as the second parameter, <code>fireSetEvent</code>.</p>
+
+		<p>To update another option, destroy the slider (<code>slider.noUiSlider.destroy()</code>) and create a new one. Note that events are <strong>not</strong> unbound when destroying a slider.</p>
 
 		<div class="example">
 			<div id="slider-update"></div>
 			<span class="example-val" id="slider-update-value"></span>
 
-			<button class="update-button" data-range="20,50">Set range [20, 50]</button>
-			<button class="update-button" data-range="10,40">Set range [10, 40]</button>
+			<button class="update-button" id="update-1">Set range [20, 50]</button>
+			<button class="update-button" id="update-2">Set range [10, 40]</button>
 
 			<?php run('update-setup'); ?>
 			<?php run('update'); ?>
@@ -90,11 +94,11 @@
 <pre class="language-markup"><code>&lt;div id="update"&gt;&lt;/div&gt;
 &lt;span id="value"&gt;&lt;/span&gt;
 
-&lt;button class="update-button" data-range="20,50"&gt;
+&lt;button class="update-button" id="update-1"&gt;
 	Set range [20, 50]
 &lt;/button&gt;
 
-&lt;button class="update-button" data-range="10,40"&gt;
+&lt;button class="update-button" id="update-2"&gt;
 	Set range [10, 40]
 &lt;/button&gt;</code></pre>
 
@@ -124,6 +128,8 @@
 	<div class="view">
 		<p>Styling noUiSlider is easy. The default stylesheet contains helpful comments to get a head start. I <strong>strongly</strong> recommend using the default stylesheet as a starting point when re-styling noUiSlider.</p>
 
+		<p>If your styling system doesn't match the convention in noUiSlider, you can use the <code>cssPrefix</code> and <code>cssClasses</code> options to reconfigure the markup.</p>
+		
 		<h3>Things to watch out for</h3>
 
 		<ul style="margin: 20px">
@@ -181,6 +187,12 @@
 					</tr>
 				</tbody>
 			</table>
+		</div>
+
+		<div class="viewer-header">Overriding classes</div>
+
+		<div class="viewer-content">
+<pre><code><?php include 'more/classes.js'; ?></code></pre>
 		</div>
 
 		<div class="viewer-header">Containing handles within the slider bar (horizontal)</div>

@@ -37,12 +37,6 @@
 		return typeof a === 'number' && !isNaN( a ) && isFinite( a );
 	}
 
-	// Rounds a number to 7 supported decimals.
-	function accurateNumber( number ) {
-		var p = Math.pow(10, 7);
-		return Number((Math.round(number*p)/p).toFixed(7));
-	}
-
 	// Sets a class and removes it after [duration] ms.
 	function addClassFor ( element, className, duration ) {
 		addClass(element, className);
@@ -85,13 +79,9 @@
 		}
 	}
 
-	// http://youmightnotneedjquery.com/#has_class
+	// https://plainjs.com/javascript/attributes/adding-removing-and-testing-for-classes-9/
 	function hasClass ( el, className ) {
-		if ( el.classList ) {
-			el.classList.contains(className);
-		} else {
-			new RegExp('(^| )' + className + '( |$)', 'gi').test(el.className);
-		}
+		return el.classList ? el.classList.contains(className) : new RegExp('\\b' + className + '\\b').test(el.className);
 	}
 
 	// https://developer.mozilla.org/en-US/docs/Web/API/Window/scrollY#Notes
@@ -105,12 +95,5 @@
 		return {
 			x: x,
 			y: y
-		};
-	}
-
-	// todo
-	function addCssPrefix(cssPrefix) {
-		return function(className) {
-			return cssPrefix + className;
 		};
 	}

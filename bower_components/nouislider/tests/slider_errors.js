@@ -97,8 +97,19 @@
 			});
 		});
 
+		assert.throws(function(){
+			noUiSlider.create(slider, {
+				start: 10,
+				range: {
+					'min': 10,
+					'max': 10
+				}
+			});
+		});
+
 		noUiSlider.create(slider, {
 			start: 1,
+			margin: 0, // Does not throw, issue #582
 			range: {
 				'min': 0,
 				'max': 10
