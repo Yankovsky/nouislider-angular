@@ -46,6 +46,11 @@ angular.module('exampleApp', ['ya.nouislider', 'ngRoute']).config(function($rout
 			templateUrl: 'destroy/destroy.html',
 			controller: 'DestroyCtrl',
 			controllerAs: 'ctrl'
+		})
+		.when('/multiple-sliders-binding', {
+			templateUrl: 'multiple-sliders-binding/multiple-sliders-binding.html',
+			controller: 'MultipleSlidersBindingCtrl',
+			controllerAs: 'ctrl'
 		});
 }).value('noUiSliderConfig', {
 	step: 1
