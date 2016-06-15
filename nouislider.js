@@ -126,11 +126,12 @@ angular.module('ya.nouislider', [])
             });
           });
 
-          angular.forEach(noUiSliderEvents, function(handler, event) {
-            noUiSliderInstance.on(event + '.noUiSlider', function() {
-              var handlerArguments = arguments;
-              $scope.$applyAsync(function() {
-                handler(handlerArguments);
+          angular.forEach(noUiSliderEvents, function (handler, event) {
+            noUiSliderInstance.on(event + '.noUiSlider', function () {
+              var handlerArguments = Array.prototype.slice.call(arguments);
+              var self = this;
+              $scope.$applyAsync(function () {
+                handler.apply(self, handlerArguments);
               });
             });
           });
