@@ -60,12 +60,10 @@ angular.module('ya.nouislider', [])
         };
 
         function toggleDisabled(element, newValue, oldValue) {
-          if (newValue !== oldValue) {
-            if (newValue) {
-              element.setAttribute('disabled', true);
-            } else {
-              element.removeAttribute('disabled');
-            }
+          if (newValue) {
+            element.setAttribute('disabled', true);
+          } else {
+            element.removeAttribute('disabled');
           }
         }
 
@@ -139,7 +137,7 @@ angular.module('ya.nouislider', [])
           sliderScope.$watch('yaNoUiSliderDisabled', toggleDisabled.bind(undefined, noUiSliderElement));
           sliderScope.$watch('yaNoUiSliderHandle1Disabled', toggleDisabled.bind(undefined, origins[0]));
           sliderScope.$watch('yaNoUiSliderHandle2Disabled', function(newValue, oldValue) {
-            if (newValue !== oldValue) {
+            if (newValue) {
               if (!origins[1]) {
                 return $log.warn('Warning: attempt to toggle disabled state of second handle using ya-no-ui-slider-handle2-disabled attribute in one-handle slider, nouislider-angular is ignoring such call.');
               }

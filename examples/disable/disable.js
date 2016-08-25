@@ -21,4 +21,14 @@ angular.module('exampleApp').controller('DisablingSliderCtrl', function() {
 	that.sliderDisabled = false;
 	that.sliderHandle1Disabled = false;
 	that.sliderHandle2Disabled = false;
+
+	that.options3 = {
+		start: [10, 50],
+		connect: true,
+		range: {
+			min: 0,
+			max: 100
+		}
+	};
+	that.slider3Disabled = true;
 });
