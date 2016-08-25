@@ -27,4 +27,16 @@
         Toggle handle 2
         <input type="checkbox" ng-model="ctrl.sliderHandle2Disabled"/>
     </label>
+
+    <h1>Slider disabled by default</h1>
+
+    <div>{{ctrl.options3.start}}</div>
+    <div class="horizontal-slider"
+         ya-no-ui-slider="ctrl.options3"
+         ya-no-ui-slider-disabled="ctrl.slider3Disabled"></div>
+
+    <label>
+        Toggle third slider
+        <input type="checkbox" ng-model="ctrl.slider3Disabled"/>
+    </label>
 </section>
