@@ -1,6 +1,6 @@
 {
   "name": "nouislider-angular",
-  "version": "2.6.2",
+  "version": "2.7.0",
   "description": "Angular wrapper for nouislider",
   "main": "nouislider.js",
   "directories": {
