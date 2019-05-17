@@ -20,6 +20,10 @@ npm install nouislider-angular
 bower install nouislider-angular
 ```
 
+## Dependencies
+
+For this directive to work you need to include angular and [nouislider](https://github.com/leongersen/noUiSlider) js first. Check [example](https://github.com/Yankovsky/nouislider-angular/blob/master/examples/index.html) to see how it is done. 
+
 ## Basic usage
 
 ```javascript
